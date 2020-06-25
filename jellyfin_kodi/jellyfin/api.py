@@ -47,7 +47,6 @@ class API(object):
     def __init__(self, client, *args, **kwargs):
         self.client = client
         self.config = client.config
-        self.default_timeout = 5
 
     def _http(self, action, url, request=None):
         if request is None:
@@ -382,7 +381,7 @@ class API(object):
         request_method = getattr(requests, method.lower())
         url = "%s/%s" % (url, path)
         request_settings = {
-            "timeout": timeout or self.default_timeout,
+            "timeout": timeout or self.config.data['http.timeout'],
             "headers": headers or self.get_default_headers(),
             "data": data
         }
