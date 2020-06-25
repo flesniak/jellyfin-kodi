@@ -390,7 +390,7 @@ class Library(threading.Thread):
             include.append('boxsets')
 
         # Filter down to the list of library types we want to exclude
-        query_filter = list(set(filters) - set(include))
+        query_filter = set(filters) - set(include)
 
         try:
             updated = []
@@ -398,7 +398,7 @@ class Library(threading.Thread):
             removed = []
 
             # Get list of updates from server for synced library types and populate work queues
-            result = self.server.jellyfin.get_sync_queue(last_sync, ",".join([ x for x in query_filter ]))
+            result = self.server.jellyfin.get_sync_queue(last_sync, ",".join(query_filter))
             updated.extend(result['ItemsAdded'])
             updated.extend(result['ItemsUpdated'])
             userdata.extend(result['UserDataChanged'])
