@@ -56,8 +56,8 @@ class API(object):
 
         return self.client.request(request)
 
-    def _get(self, handler, params=None):
-        return self._http("GET", handler, {'params': params})
+    def _get(self, handler, params=None, timeout=None):
+        return self._http("GET", handler, {'params': params, 'timeout': timeout})
 
     def _post(self, handler, json=None, params=None):
         return self._http("POST", handler, {'params': params, 'json': json})
@@ -329,7 +329,7 @@ class API(object):
         return self._get("Jellyfin.Plugin.KodiSyncQueue/{UserId}/GetItems", params={
             'LastUpdateDT': date,
             'filter': filters or 'None'
-        })
+        }, timeout=300)
 
     def get_server_time(self):
         return self._get("Jellyfin.Plugin.KodiSyncQueue/GetServerDateTime")
